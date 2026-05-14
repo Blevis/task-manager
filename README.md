@@ -1,18 +1,29 @@
 # Task Manager API
 
-A RESTful API built with Node.js and Express.js for managing tasks.
+A RESTful API built with Node.js and Express.js for managing tasks, with support for PDF attachments.
 Developed as a course project for Advanced Programming (JavaScript).
+
+## Features
+
+- Full CRUD operations on tasks
+- Filter tasks by completion status and priority
+- Mark tasks as complete
+- Aggregate task statistics
+- Upload PDF attachments to tasks (max 2MB)
+- Centralized input validation and error handling
 
 ## Tech Stack
 
-- **Runtime:** Node.js
-- **Framework:** Express.js
+- **Runtime:** Node.js (>= 18)
+- **Framework:** Express.js 5
+- **File Uploads:** Multer
 - **Storage:** In-memory (no database required)
 
 ## Getting Started
 
 ### Prerequisites
-- Node.js installed on your machine
+- Node.js 18 or newer installed on your machine
+- npm (bundled with Node.js)
 
 ### Installation
 

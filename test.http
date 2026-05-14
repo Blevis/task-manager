@@ -1,8 +1,11 @@
+### Variables
+@host = http://localhost:3000
+
 ### 1. Check server is alive
-GET http://localhost:3000/
+GET {{host}}/
 
 ### 2. Create a high priority task
-POST http://localhost:3000/tasks
+POST {{host}}/tasks
 Content-Type: application/json
 
 {
@@ -11,8 +14,12 @@ Content-Type: application/json
   "priority": "high"
 }
 
+> {%
+    client.global.set("createdId", response.body.data.id);
+%}
+
 ### 3. Create a medium priority task
-POST http://localhost:3000/tasks
+POST {{host}}/tasks
 Content-Type: application/json
 
 {
@@ -21,8 +28,12 @@ Content-Type: application/json
   "priority": "medium"
 }
 
+> {%
+    client.global.set("secondId", response.body.data.id);
+%}
+
 ### 4. Create a low priority task
-POST http://localhost:3000/tasks
+POST {{host}}/tasks
 Content-Type: application/json
 
 {
@@ -31,8 +42,12 @@ Content-Type: application/json
   "priority": "low"
 }
 
+> {%
+    client.global.set("thirdId", response.body.data.id);
+%}
+
 ### 5. [FAIL CASE] Missing title (expect 400)
-POST http://localhost:3000/tasks
+POST {{host}}/tasks
 Content-Type: application/json
 
 {
@@ -40,7 +55,7 @@ Content-Type: application/json
 }
 
 ### 6. [FAIL CASE] Missing description (expect 400)
-POST http://localhost:3000/tasks
+POST {{host}}/tasks
 Content-Type: application/json
 
 {
@@ -48,7 +63,7 @@ Content-Type: application/json
 }
 
 ### 7. [FAIL CASE] Invalid priority (expect 400)
-POST http://localhost:3000/tasks
+POST {{host}}/tasks
 Content-Type: application/json
 
 {
@@ -58,89 +73,106 @@ Content-Type: application/json
 }
 
 ### 8. Get all tasks
-GET http://localhost:3000/tasks
+GET {{host}}/tasks
 
 ### 9. Filter by high priority
-GET http://localhost:3000/tasks?priority=high
+GET {{host}}/tasks?priority=high
 
 ### 10. Filter by low priority
-GET http://localhost:3000/tasks?priority=low
+GET {{host}}/tasks?priority=low
 
 ### 11. Filter completed tasks
-GET http://localhost:3000/tasks?completed=true
+GET {{host}}/tasks?completed=true
 
 ### 12. Filter pending tasks
-GET http://localhost:3000/tasks?completed=false
+GET {{host}}/tasks?completed=false
 
-### 13. Get single task (replace ID)
-GET http://localhost:3000/tasks/YOUR_ID
+### 13. Get the first created task
+GET {{host}}/tasks/{{createdId}}
 
 ### 14. [FAIL CASE] Get non-existent task (expect 404)
-GET http://localhost:3000/tasks/99999
+GET {{host}}/tasks/99999
 
-### 15. Update task title only (replace ID)
-PUT http://localhost:3000/tasks/YOUR_ID
+### 15. [FAIL CASE] Invalid id format (expect 400)
+GET {{host}}/tasks/not-a-number
+
+### 16. Update task title only
+PUT {{host}}/tasks/{{createdId}}
 Content-Type: application/json
 
 {
   "title": "Build the API (updated)"
 }
 
-### 16. Update task priority (replace ID)
-PUT http://localhost:3000/tasks/YOUR_ID
+### 17. Update task priority
+PUT {{host}}/tasks/{{createdId}}
 Content-Type: application/json
 
 {
   "priority": "low"
 }
 
-### 17. [FAIL CASE] Update with invalid priority (expect 400)
-PUT http://localhost:3000/tasks/YOUR_ID
+### 18. [FAIL CASE] Update with invalid priority (expect 400)
+PUT {{host}}/tasks/{{createdId}}
 Content-Type: application/json
 
 {
   "priority": "urgent"
 }
 
-### 18. Mark task as complete (replace ID)
-PATCH http://localhost:3000/tasks/YOUR_ID/complete
+### 19. [FAIL CASE] Update with empty body (expect 400)
+PUT {{host}}/tasks/{{createdId}}
+Content-Type: application/json
 
-### 19. Filter completed tasks (should now show the completed one)
-GET http://localhost:3000/tasks?completed=true
+{}
 
-### 20. Get stats
-GET http://localhost:3000/tasks/stats
+### 20. Mark task as complete
+PATCH {{host}}/tasks/{{createdId}}/complete
 
-### 21. Upload PDF attachment (replace ID and path)
-POST http://localhost:3000/tasks/YOUR_ID/attachment
-Content-Type: multipart/form-data; boundary=boundary
+### 21. Filter completed tasks (should now show the completed one)
+GET {{host}}/tasks?completed=true
 
---boundary
-Content-Disposition: form-data; name="file"; filename="test.pdf"
+### 22. Get stats
+GET {{host}}/tasks/stats
+
+### 23. Upload PDF attachment
+# Place a file named sample.pdf next to this test.http file before running.
+POST {{host}}/tasks/{{createdId}}/attachment
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="sample.pdf"
 Content-Type: application/pdf
 
-< /path/to/your/test.pdf
---boundary--
+< ./sample.pdf
+--WebAppBoundary--
 
-### 22. [FAIL CASE] Upload non-PDF file (expect 400)
-POST http://localhost:3000/tasks/YOUR_ID/attachment
-Content-Type: multipart/form-data; boundary=boundary
+### 24. [FAIL CASE] Upload non-PDF file (expect 400)
+# Place any text file named sample.txt next to this test.http file.
+POST {{host}}/tasks/{{createdId}}/attachment
+Content-Type: multipart/form-data; boundary=WebAppBoundary
 
---boundary
-Content-Disposition: form-data; name="file"; filename="test.txt"
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="sample.txt"
 Content-Type: text/plain
 
-< /path/to/your/test.txt
---boundary--
+< ./sample.txt
+--WebAppBoundary--
 
-### 23. Get task to confirm attachment is saved (replace ID)
-GET http://localhost:3000/tasks/YOUR_ID
+### 25. [FAIL CASE] Upload with no file field (expect 400)
+POST {{host}}/tasks/{{createdId}}/attachment
+Content-Type: multipart/form-data; boundary=WebAppBoundary
 
-### 24. Delete a task (replace ID)
-DELETE http://localhost:3000/tasks/YOUR_ID
+--WebAppBoundary--
 
-### 25. [FAIL CASE] Get deleted task (expect 404)
-GET http://localhost:3000/tasks/YOUR_ID
+### 26. Get task to confirm attachment is saved
+GET {{host}}/tasks/{{createdId}}
 
-### 26. Get final stats
-GET http://localhost:3000/tasks/stats
+### 27. Delete a task
+DELETE {{host}}/tasks/{{createdId}}
+
+### 28. [FAIL CASE] Get deleted task (expect 404)
+GET {{host}}/tasks/{{createdId}}
+
+### 29. Get final stats
+GET {{host}}/tasks/stats
