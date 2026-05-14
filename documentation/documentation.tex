@@ -1,0 +1,602 @@
+\documentclass[11pt,a4paper]{article}
+
+% ── Page setup ───────────────────────────────────────────────────────────────
+\usepackage[a4paper,margin=2.4cm,headheight=15pt]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{parskip}
+\usepackage{setspace}
+\setstretch{1.02}
+
+% ── Core packages ────────────────────────────────────────────────────────────
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{listings}
+\usepackage[most]{tcolorbox}
+\usepackage{graphicx}
+\usepackage{amssymb}
+
+% ── Color palette ─────────────────────────────────────────────────────────────
+\definecolor{Ink}{HTML}{1F2937}
+\definecolor{Muted}{HTML}{6B7280}
+\definecolor{Accent}{HTML}{2563EB}
+\definecolor{AccentDark}{HTML}{1D4ED8}
+\definecolor{SoftBlue}{HTML}{E8F1FF}
+\definecolor{SoftGray}{HTML}{F3F4F6}
+\definecolor{Border}{HTML}{D1D5DB}
+\definecolor{CodeBg}{HTML}{0F172A}
+\definecolor{CodeFg}{HTML}{E2E8F0}
+\definecolor{LowGreen}{HTML}{16A34A}
+\definecolor{MedAmber}{HTML}{D97706}
+\definecolor{HighRed}{HTML}{DC2626}
+
+% ── Hyperlinks ────────────────────────────────────────────────────────────────
+\hypersetup{
+  colorlinks=true,
+  linkcolor=AccentDark,
+  urlcolor=AccentDark,
+  citecolor=AccentDark,
+  pdftitle={Task Manager --- Technical Project Report},
+  pdfauthor={Blevis Allushi}
+}
+
+% ── Header / Footer ──────────────────────────────────────────────────────────
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\textcolor{Muted}{Advanced Programming (JavaScript)}}
+\rhead{\textcolor{Muted}{Task Manager --- Technical Report}}
+\cfoot{\textcolor{Muted}{\thepage}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% ── Section formatting ───────────────────────────────────────────────────────
+\titleformat{\section}
+  {\Large\bfseries\color{Ink}}
+  {}{0pt}{}
+  [\vspace{0.25em}\color{Accent}\titlerule]
+
+\titleformat{\subsection}
+  {\large\bfseries\color{Ink}}
+  {}{0pt}{}
+
+\titlespacing*{\section}{0pt}{1.4em}{0.8em}
+\titlespacing*{\subsection}{0pt}{1.0em}{0.5em}
+
+% ── Lists ────────────────────────────────────────────────────────────────────
+\setlist[itemize]{leftmargin=1.4em,itemsep=0.35em,topsep=0.35em}
+\setlist[enumerate]{leftmargin=1.6em,itemsep=0.35em,topsep=0.35em}
+
+% ── Inline code style ────────────────────────────────────────────────────────
+\newcommand{\code}[1]{%
+  \tcbox[colback=SoftGray,colframe=Border,boxrule=0.4pt,arc=2pt,boxsep=0.45mm,left=1mm,right=1mm,top=0.6mm,bottom=0.6mm]{\texttt{\small#1}}%
+}
+
+% ── Listings (directory tree) ────────────────────────────────────────────────
+\lstdefinestyle{tree}{
+  basicstyle=\ttfamily\small\color{CodeFg},
+  backgroundcolor=\color{CodeBg},
+  frame=single,
+  framerule=0.4pt,
+  rulecolor=\color{Border},
+  xleftmargin=0.8em,
+  xrightmargin=0.8em,
+  breaklines=true,
+  columns=fullflexible,
+  showstringspaces=false
+}
+\lstset{style=tree}
+
+% ── Box styles ────────────────────────────────────────────────────────────────
+\tcbset{
+  enhanced,
+  sharp corners,
+  boxrule=0.6pt,
+  colframe=Border,
+  colback=white,
+  breakable
+}
+
+\newtcolorbox{infoBox}[1][] {
+  colback=SoftBlue,
+  colframe=Accent,
+  title=#1,
+  fonttitle=\bfseries,
+  left=1.2mm,right=1.2mm,top=1.2mm,bottom=1.2mm
+}
+
+\newtcolorbox{accentBox}[1][] {
+  colback=white,
+  colframe=AccentDark,
+  title=#1,
+  fonttitle=\bfseries,
+  left=1.2mm,right=1.2mm,top=1.2mm,bottom=1.2mm
+}
+
+\newcommand{\statuslow}{\textcolor{LowGreen}{Low}}
+\newcommand{\statusmed}{\textcolor{MedAmber}{Medium}}
+\newcommand{\statushigh}{\textcolor{HighRed}{High}}
+
+% ─────────────────────────────────────────────────────────────────────────────
+\begin{document}
+
+% ── Title Page ───────────────────────────────────────────────────────────────
+\begin{titlepage}
+  \thispagestyle{empty}
+  \begin{flushleft}
+    \includegraphics[width=3cm]{umt-logo.png}
+  \end{flushleft}
+
+  \vspace{1.2cm}
+
+  {\Large\textcolor{Muted}{Universiteti Metropolitan Tirana}\par}
+  \vspace{0.4cm}
+  {\large\textcolor{Muted}{Advanced Programming (JavaScript)}\par}
+
+  \vspace{1.5cm}
+
+  {\fontsize{36}{42}\selectfont\bfseries\textcolor{Ink}{TASK MANAGER}\par}
+  \vspace{0.4cm}
+  {\Huge\textcolor{AccentDark}{Technical Project Report}\par}
+
+  \vspace{1.5cm}
+
+  \begin{tcolorbox}[
+    width=0.88\textwidth,
+    colback=SoftBlue,
+    colframe=AccentDark,
+    arc=4mm,
+    boxrule=0.8pt
+  ]
+    \centering
+    \large \textbf{Author}\par
+    \vspace{0.2cm}
+    {\Large Blevis Allushi}\par
+
+    \vspace{0.5cm}
+
+    \normalsize
+    Year 2, Semester 2 \textbullet\ Advanced Programming (JavaScript)\par
+    \vspace{0.2cm}
+    \today
+  \end{tcolorbox}
+
+  \vfill
+
+  \begin{center}
+    \color{AccentDark}
+    \rule{0.75\textwidth}{1.2pt}
+  \end{center}
+
+  \vspace{0.4cm}
+
+  {\large\textcolor{Muted}{A full-stack task management application built using Node.js, Express.js, and a browser-based frontend.}\par}
+
+  \vspace{0.8cm}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Project Overview}
+
+\begin{infoBox}[Overview]
+Task Manager is a full-stack web application for managing personal or team tasks.
+It consists of a RESTful API backend built with Node.js and Express.js, served
+alongside a static browser-based frontend. The two layers communicate entirely
+over HTTP using JSON, with no page reloads required.
+\end{infoBox}
+
+Users can create tasks with a title, description, and priority level. Each task
+can be marked as complete, edited, deleted, and optionally have a single PDF
+file attached to it. A live statistics panel at the top of the page shows the
+total, completed, and pending task counts at all times.
+
+All task data is held in server memory. No database is used, so data does not
+persist across server restarts. This was an intentional design decision to keep
+the project self-contained and dependency-free beyond its two npm packages.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Technology Stack}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\small
+\begin{tabularx}{0.96\textwidth}{@{}>{\bfseries}p{3cm} X >{\centering\arraybackslash}p{2cm}@{}}
+\toprule
+Concern & Technology & Version \\
+\midrule
+Runtime & Node.js & $\geq$ 18 \\
+Web framework & Express.js & 5.2.1 \\
+File upload & Multer & 2.1.1 \\
+Package manager & npm & bundled \\
+Frontend & Vanilla HTML, CSS, JavaScript & --- \\
+Module system & CommonJS & --- \\
+\bottomrule
+\end{tabularx}
+\normalsize
+\end{center}
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Project Structure}
+
+\begin{lstlisting}
+task-manager/
+|-- public/
+|   |-- index.html
+|   |-- app.js
+|   `-- style.css
+|-- src/
+|   |-- data/
+|   |   `-- store.js
+|   |-- middleware/
+|   |   |-- upload.js
+|   |   `-- validate.js
+|   |-- models/
+|   |   `-- Task.js
+|   `-- routes/
+|       `-- tasks.js
+|-- uploads/
+|-- app.js
+|-- server.js
+|-- package.json
+|-- package-lock.json
+`-- test.http
+\end{lstlisting}
+
+The project is split into two clear zones. The \code{public/} directory holds
+everything that runs in the browser. The \code{src/} directory holds everything
+that runs on the server. The two root-level files \code{server.js} and
+\code{app.js} act as the server entry point and Express configuration
+respectively.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{File-by-File Reference}
+
+\subsection{server.js}
+
+This is the application entry point. It imports the configured Express
+application from \code{app.js} and calls \code{listen} on port 3000. It has no
+other responsibilities. Keeping this file separate from the application
+configuration means the Express app object can be imported and tested
+independently without binding a network port.
+
+\subsection{app.js (root)}
+
+\begin{accentBox}[Application setup]
+This file creates and exports the Express application instance. It performs the
+following steps in order:
+\end{accentBox}
+
+\begin{enumerate}
+  \item Checks whether the \code{uploads/} directory exists on disk and creates
+        it if not, using Node's built-in \code{fs} module. This prevents Multer
+        from throwing an error on first run.
+  \item Registers \code{express.json()} middleware so that incoming request
+        bodies with a \code{Content-Type} of \code{application/json} are
+        automatically parsed into \code{req.body}.
+  \item Registers \code{express.static()} pointing at the \code{public/}
+        directory, so the browser client files are served automatically.
+  \item Explicitly maps the root path \code{/} to serve \code{index.html},
+        ensuring the UI loads when a user visits the server in a browser.
+  \item Mounts the task router at \code{/tasks}.
+  \item Registers a catch-all 404 handler that returns a structured JSON error
+        for any request that did not match a defined route.
+\end{enumerate}
+
+\subsection{src/models/Task.js}
+
+Defines the \code{Task} class, which is the data model for the entire
+application. Every task created by the API is an instance of this class.
+
+The constructor accepts a title, description, and an optional priority (defaulting
+to \texttt{"medium"}). It assigns a numeric ID using \code{Date.now()}, a
+creation timestamp in ISO 8601 format, and sets \code{completed} to
+\code{false}.
+
+The class exposes three methods:
+
+\begin{itemize}
+  \item \code{complete()} --- sets the \code{completed} property to
+        \code{true}. This operation is one-way; there is no corresponding
+        \code{uncomplete()} method.
+  \item \code{update(fields)} --- accepts an object of fields to update. Only
+        \code{title}, \code{description}, and \code{priority} are modifiable
+        through this method. Any other keys in the input object are silently
+        ignored.
+  \item \code{toJSON()} --- returns a shallow copy of the instance as a plain
+        object. Express calls this automatically when serialising a response
+        with \code{res.json()}.
+\end{itemize}
+
+\subsection{src/data/store.js}
+
+This file is the in-memory data store. It holds a single private \code{tasks}
+array and exports six functions that provide the only interface through which
+other modules may read or modify that array.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\small
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash\bfseries}p{4.8cm} >{\raggedright\arraybackslash}X@{}}
+\toprule
+Function & Description \\
+\midrule
+\code{getAllTasks()} & Returns the full tasks array. \\
+\code{getTaskById(id)} & Finds a task by its numeric ID using \code{Array.find}. \\
+\code{addTask(title, description, priority)} & Instantiates a new \code{Task} and pushes it onto the array. Returns the new task. \\
+\code{updateTask(id, fields)} & Looks up the task and calls \code{task.update(fields)}. Returns \code{null} if the task does not exist. \\
+\code{deleteTask(id)} & Finds the task's index and removes it with \code{splice}. Returns \code{false} if not found. \\
+\code{getStats()} & Computes and returns total, completed, pending, and per-priority counts using \code{Array.filter}. \\
+\bottomrule
+\end{tabularx}
+\normalsize
+\end{center}
+
+Because the array lives in module scope and Node.js caches modules after the
+first \code{require}, every part of the application shares the same array
+instance throughout the lifetime of the process.
+
+\subsection{src/middleware/validate.js}
+
+Exports two Express middleware functions used to validate request bodies before
+they reach route handlers.
+
+\textbf{\code{validateTask}} is applied to the \code{POST /tasks} route. It
+requires \code{title} and \code{description} to be present, non-empty strings.
+If \code{priority} is provided, it must be one of \texttt{"low"},
+\texttt{"medium"}, or \texttt{"high"}. If any rule fails, the middleware
+responds immediately with HTTP 400 and a JSON array of error messages, and the
+route handler is never called.
+
+\textbf{\code{validateTaskUpdate}} is applied to the \code{PUT /tasks/:id}
+route. The rules are the same as above, except all fields are optional. Only
+fields that are actually present in the request body are checked. This allows
+callers to send a partial update with only the fields they want to change.
+
+Both functions call \code{next()} to hand control to the route handler when
+validation passes.
+
+\subsection{src/middleware/upload.js}
+
+Configures and exports a Multer instance used for handling PDF file uploads.
+
+Multer is configured with disk storage rather than memory storage, meaning
+uploaded files are written to the filesystem inside the \code{uploads/}
+directory rather than being held in a buffer. Each file is given a randomised
+filename composed of a millisecond timestamp and a large random integer,
+followed by the original file extension. This prevents filename collisions and
+avoids exposing the original filename on disk.
+
+A file filter function inspects the MIME type of each incoming file. If it is
+not \code{application/pdf}, the filter rejects it with an error message, and
+Multer does not write the file. The size limit is set to 2\,MB
+($2 \times 1024 \times 1024$ bytes).
+
+\subsection{src/routes/tasks.js}
+
+Defines all ten API endpoints under the \code{/tasks} prefix using an Express
+\code{Router}. Each route delegates data operations to the store and returns a
+consistent JSON envelope.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\small
+\begin{tabularx}{\textwidth}{@{}>{\bfseries}p{1.8cm} >{\ttfamily\raggedright\arraybackslash}p{4.5cm} >{\raggedright\arraybackslash}X@{}}
+\toprule
+Method & Path & Description \\
+\midrule
+GET & / & Returns all tasks. Supports completed and priority query parameters. \\
+GET & /stats & Returns aggregate statistics. \\
+GET & /:id & Returns a single task by ID. \\
+POST & / & Creates a new task. Runs validateTask. \\
+PUT & /:id & Updates a task. Runs validateTaskUpdate. \\
+PATCH & /:id/complete & Marks a task as complete. \\
+DELETE & /:id & Deletes a task. \\
+POST & /:id/attachment & Uploads a PDF and attaches metadata to the task object. \\
+\bottomrule
+\end{tabularx}
+\normalsize
+\end{center}
+
+A route-level error handler is registered after all routes. It catches errors
+thrown by Multer (such as a file that exceeds 2\,MB or has the wrong MIME type)
+and converts them into structured JSON 400 responses, consistent with the rest
+of the API.
+
+When a PDF is uploaded successfully, the route adds an \code{attachment} property
+directly to the task object containing the original filename, the randomised
+on-disk filename, the file size in bytes, and an upload timestamp.
+
+\subsection{public/index.html}
+
+The single HTML page served to the browser. It defines the full layout of the
+UI:
+
+\begin{itemize}
+  \item A header containing the application title and three live statistic
+        cards showing total, completed, and pending task counts.
+  \item A task creation form with fields for title, description, and priority.
+  \item A filter bar with dropdowns for priority and completion status, and a
+        button to clear all active filters.
+  \item A task container where task cards are rendered dynamically.
+  \item A modal overlay used for the task edit form.
+  \item A toast notification element used for success and error messages.
+\end{itemize}
+
+The page loads \code{style.css} for styling and \code{app.js} for all
+interactivity. No frameworks or external CDN links are used.
+
+\subsection{public/app.js}
+
+The browser-side JavaScript file. It manages all UI behaviour and communicates
+with the backend exclusively through the Fetch API using \code{async}/\code{await}.
+
+On page load it fetches the current task list and statistics from the API and
+renders them. It then attaches event listeners to the form, filter dropdowns,
+clear button, and modal close button.
+
+The file provides the following functional groups:
+
+\textbf{API functions} (\code{loadTasks}, \code{loadStats}, \code{handleAddTask},
+\code{updateTask}, \code{completeTask}, \code{deleteTask}, \code{uploadAttachment})
+--- each makes a fetch call to the corresponding API endpoint, reads the JSON
+response, and either updates the UI or shows an error toast.
+
+\textbf{Render functions} (\code{renderTasks}, \code{showEditModal},
+\code{closeModal}) --- \code{renderTasks} maps the local task array to HTML
+strings and sets \code{innerHTML} on the task container. \code{showEditModal}
+builds an edit form inside the modal, pre-filled with the current task values,
+and attaches a submit handler that calls \code{updateTask}.
+
+\textbf{Filter functions} (\code{handleFilterChange}, \code{clearFilters}) ---
+update a local \code{filters} state object and re-fetch the task list with the
+appropriate query parameters appended to the URL.
+
+\textbf{Utility functions} (\code{showToast}, \code{escapeHtml},
+\code{formatBytes}) --- \code{showToast} briefly displays a success or error
+message in the fixed toast element. \code{escapeHtml} sanitises user-supplied
+strings before inserting them into the DOM to prevent cross-site scripting.
+\code{formatBytes} formats a byte count into a human-readable string.
+
+\subsection{public/style.css}
+
+Provides all visual styling for the frontend. Key design decisions include:
+
+\begin{itemize}
+  \item CSS custom properties (variables) defined on \code{:root} for the
+        colour palette, used consistently throughout the file.
+  \item A CSS Grid layout for the task card area using
+        \code{repeat(auto-fill, minmax(300px, 1fr))}, which automatically
+        adjusts the number of columns based on available width.
+  \item A fixed-position toast element that slides in from the bottom of the
+        viewport using a CSS transition on \code{opacity} and
+        \code{transform}.
+  \item A modal that uses \code{position: fixed} and a blurred backdrop. It is
+        hidden by default (\code{display: none}) and made visible by adding an
+        \code{active} class.
+  \item A responsive media query at 768px that switches the task grid to a
+        single column and stacks the filter controls vertically.
+  \item Colour-coded priority badges: green for low, amber for medium, and red
+        for high.
+\end{itemize}
+
+\subsection{package.json}
+
+Declares the project as a CommonJS Node.js package (via \code{"type":
+"commonjs"}). Lists two production dependencies: \code{express} at version
+\code{\^{}5.2.1} and \code{multer} at version \code{\^{}2.1.1}. No development
+dependencies or test runner are configured.
+
+\subsection{package-lock.json}
+
+The npm-generated lockfile. Records the exact resolved versions and integrity
+hashes for every package in the dependency tree, including transitive
+dependencies, ensuring reproducible installs across machines.
+
+\subsection{test.http}
+
+A file containing 29 hand-written HTTP requests that cover every endpoint,
+including deliberate failure cases (missing fields, invalid priority values,
+non-PDF uploads, requests for non-existent task IDs). It is compatible with the
+JetBrains HTTP Client and the VS Code REST Client extension.
+
+Requests that create tasks use response handler scripts to capture the returned
+task ID into a shared variable, which subsequent requests (update, complete,
+delete, upload) then reference automatically. This makes it possible to run the
+full suite sequentially without manually copying IDs between requests.
+
+\subsection{.gitignore}
+
+Instructs Git to exclude the following from version control:
+
+\begin{itemize}
+  \item \code{node\_modules/} --- installed packages, reproducible via
+        \code{npm install}.
+  \item \code{uploads/} --- user-uploaded PDF files, which are runtime
+        artefacts and should not be committed.
+  \item Log files (\code{*.log}, \code{npm-debug.log*}).
+  \item Environment variable files (\code{.env}, \code{.env.local}).
+  \item IDE configuration directories (\code{.idea/}).
+  \item OS metadata files (\code{.DS\_Store}, \code{Thumbs.db}).
+\end{itemize}
+
+\subsection{.gitattributes}
+
+Contains a single rule (\code{* text=auto}) that instructs Git to automatically
+detect text files and normalise their line endings to LF on commit. This
+prevents line-ending inconsistencies when the project is worked on across
+Windows and Unix-based machines.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{API Summary}
+
+\begin{infoBox}[Response envelopes]
+All responses use one of three JSON envelopes:
+\end{infoBox}
+
+\begin{itemize}
+  \item \code{\{"success": true, "data": \{...\}\}} --- successful response
+        with a payload.
+  \item \code{\{"success": false, "message": "..."\}} --- single error
+        message (404, runtime error).
+  \item \code{\{"success": false, "errors": ["..."]\}} --- validation error
+        with one or more messages.
+\end{itemize}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.2}
+\small
+\begin{tabularx}{\textwidth}{@{}>{\bfseries}p{1.8cm} >{\ttfamily\raggedright\arraybackslash}p{6cm} >{\centering\arraybackslash}p{2.5cm}@{}}
+\toprule
+Method & Endpoint & Success Status \\
+\midrule
+GET & /tasks & 200 \\
+GET & /tasks?completed=true & 200 \\
+GET & /tasks?priority=high & 200 \\
+GET & /tasks/stats & 200 \\
+GET & /tasks/:id & 200 \\
+POST & /tasks & 201 \\
+PUT & /tasks/:id & 200 \\
+PATCH & /tasks/:id/complete & 200 \\
+DELETE & /tasks/:id & 200 \\
+POST & /tasks/:id/attachment & 200 \\
+\bottomrule
+\end{tabularx}
+\normalsize
+\end{center}
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Design Notes and Limitations}
+
+\textbf{No persistence.} All task data lives in a JavaScript array in server
+memory. Restarting the server clears all tasks. Persistence could be added by
+replacing the store module with one that reads from and writes to a file or
+database, without changing any other part of the application.
+
+\textbf{Single attachment per task.} Uploading a second PDF to a task
+overwrites the \code{attachment} metadata on the task object. The previously
+uploaded file is not deleted from disk automatically.
+
+\textbf{IDs are timestamps.} Task IDs are generated using \code{Date.now()},
+which returns the number of milliseconds since the Unix epoch. This is unique
+enough for a single-process, in-memory application but would not be suitable
+for a distributed or high-throughput system.
+
+\textbf{No authentication.} All API endpoints are publicly accessible. Any
+client that can reach the server can read, create, modify, and delete any task.
+
+\textbf{XSS mitigation.} The frontend escapes all user-supplied strings through
+a DOM-based HTML-escape function before inserting them into the page, preventing
+stored cross-site scripting via task titles or descriptions.
+
+\end{document}

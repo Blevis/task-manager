@@ -1,0 +1,21 @@
+\contentsline {section}{\numberline {1}Project Overview}{2}{section.1}%
+\contentsline {section}{\numberline {2}Technology Stack}{2}{section.2}%
+\contentsline {section}{\numberline {3}Project Structure}{2}{section.3}%
+\contentsline {section}{\numberline {4}File-by-File Reference}{3}{section.4}%
+\contentsline {subsection}{\numberline {4.1}server.js}{3}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}app.js (root)}{3}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}src/models/Task.js}{4}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}src/data/store.js}{5}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}src/middleware/validate.js}{6}{subsection.4.5}%
+\contentsline {subsection}{\numberline {4.6}src/middleware/upload.js}{7}{subsection.4.6}%
+\contentsline {subsection}{\numberline {4.7}src/routes/tasks.js}{7}{subsection.4.7}%
+\contentsline {subsection}{\numberline {4.8}public/index.html}{8}{subsection.4.8}%
+\contentsline {subsection}{\numberline {4.9}public/app.js}{8}{subsection.4.9}%
+\contentsline {subsection}{\numberline {4.10}public/style.css}{10}{subsection.4.10}%
+\contentsline {subsection}{\numberline {4.11}package.json}{11}{subsection.4.11}%
+\contentsline {subsection}{\numberline {4.12}package-lock.json}{11}{subsection.4.12}%
+\contentsline {subsection}{\numberline {4.13}test.http}{11}{subsection.4.13}%
+\contentsline {subsection}{\numberline {4.14}.gitignore}{12}{subsection.4.14}%
+\contentsline {subsection}{\numberline {4.15}.gitattributes}{12}{subsection.4.15}%
+\contentsline {section}{\numberline {5}API Summary}{13}{section.5}%
+\contentsline {section}{\numberline {6}Design Notes and Limitations}{13}{section.6}%
